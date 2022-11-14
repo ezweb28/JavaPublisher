@@ -14,7 +14,8 @@ public class Consumer {
             Connection connection = factory.createConnection();
             connection.start();
 
-            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+//            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            Session session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
             Destination destination = session.createQueue("demo");
 
             MessageConsumer consumer = session.createConsumer(destination);
@@ -22,6 +23,7 @@ public class Consumer {
                 TextMessage textMessage = (TextMessage) message;
                 try {
                     System.out.println(textMessage.getText());
+                    textMessage.acknowledge();
                 } catch (JMSException e) {
                     e.printStackTrace();
                 }

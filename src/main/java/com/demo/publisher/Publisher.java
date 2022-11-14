@@ -14,12 +14,15 @@ public class Publisher {
             Connection connection = factory.createConnection();
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             Destination destination = session.createQueue("demo");
-
-            TextMessage textMessage = session.createTextMessage("First Message");
-
             MessageProducer producer = session.createProducer(destination);
-            producer.send(textMessage);
 
+            String[] messages = {"First Message", "Second Message", "Third Message",
+                    "Fourth Message"};
+
+            for (String message : messages) {
+                TextMessage textMessage = session.createTextMessage(message);
+                producer.send(textMessage);
+            }
 
             System.out.println("Message Published");
 
